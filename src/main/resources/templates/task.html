@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Task Manager</title>
+</head>
+<body>
+<div class="mx-auto mt-4" style="width: 400px;">
+    <h2>Update Task <img src="/pencil.png"/></h2>
+</div>
+
+<form method="post" th:action="@{/task/update}" th:object="${edit_task}">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Time Spent</th>
+            <th scope="col">Status</th>
+            <th scope="col">Registration Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row">
+            <td><input type="text" th:field="*{id}" readonly></td>
+            <td><input type="text" th:field="*{name}"></td>
+            <td>
+                <select th:field="*{category}">
+                    <option th:each="category: ${T(pl.mmieczak.exercises.model.TaskCategory).values()}"
+                            th:text="${category}" th:value="${category}"></option>
+                </select>
+            </td>
+            <td><input type="date" th:field="*{taskEndDate}"></td>
+            <td><input type="text" th:field="*{timeSpent}"></td>
+            <td>
+                <select th:field="*{status}">
+                    <option th:each="status: ${T(pl.mmieczak.exercises.model.TaskType).values()}"
+                            th:text="${status}" th:value="${status}"></option>
+                </select>
+            </td>
+            <td><input type="text" th:field="*{registrationDateTime}" readonly></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <input class="btn btn-success mr-10" type="submit" id="submitButton" value="Update">
+    <input class="btn btn-danger mx-auto" type="reset" id="resetButton" name="reset" value="Reset"/>
+</form>
+</body>
+</html>
