@@ -14,7 +14,7 @@
 <p>TASKS: <span><a th:href="|/|">ALL</a></span> | <span><a th:href="|/ongoing|">ONGOING</a></span> | <a
         th:href="|/archived|">ARCHIVED</a></span> </p>
 
-<table class="table">
+<table class="table table-bordered">
     <thead class="thead-dark">
     <tr>
         <th scope="col">#</th>
@@ -32,69 +32,19 @@
         <td><span th:text="${task.id}">Name</span></td>
         <td><span th:text="${task.name}">Name</span></td>
         <td><span th:text="${task.category}">Category</span></td>
-        <!--<td><span class="date"><span th:text="${task.taskEndDate}" class="date">Deadline</span></td>-->
-        <td><span th:text="${task.taskEndDate}" class="date">Deadline</span></td>
+        <td class="dateRow" th:text="${task.taskEndDate}">Deadline</td>
         <td><span th:text="${task.status}">Status</span></td>
         <td><span th:text="${task.timeSpent}">Time Spent</span></td>
         <td th:text="${task.registrationDateTime}">Registration Time</td>
         <td><a th:href="|/task?id=${task.id}|"><img src="/pencil.png"/></a>
             <a th:href="|/delete?id=${task.id}|"><img src="/criss-cross.png"/></a>
         </td>
-
     </tr>
     <tr>
         <td colspan="4"><a th:href="|/create|"><img src="/add.png"/></a></td>
     </tr>
     </tbody>
 </table>
-
-<!--<script>
-    function getDateFromString(str) {
-
-        var dateParts = str.split('-');
-        var date = new Date();
-        date.setFullYear(dateParts[2]);
-        date.setMonth(dateParts[1] - 1);
-        date.setDate(dateParts[0]);
-        date.setHours(0, 0, 0, 0);
-
-        return date;
-    }
-
-    // Query all table cells in document
-    document.querySelectorAll('table td').forEach(function (td) {
-
-// If date contained in td text before current date
-// then apply red background style
-
-        var today = new Date();
-        var dd = today.getDate();
-
-        var mm = today.getMonth()+1;
-        var yyyy = today.getFullYear();
-        if(dd<10)
-        {
-            dd='0'+dd;
-        }
-
-        if(mm<10)
-        {
-            mm='0'+mm;
-        }
-        today = yyyy+'-'+mm+'-'+dd;
-
-        document.write(td.innerText.toString() + " vs ");
-        document.write(today.toString() + "; ");
-        document.write(getDateFromString(td.innerText) < new Date(today.toString()) +" !!!");
-
-        if ((getDateFromString(td.innerText) < new Date(today.toString())) ==true) {
-            td.style.background = 'green';
-        }
-        else {
-            td.style.background = 'red';
-        }
-    });-->
-
 </body>
 
 

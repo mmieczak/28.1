@@ -1,6 +1,5 @@
 package pl.mmieczak.exercises.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,7 @@ import pl.mmieczak.exercises.model.Task;
 import pl.mmieczak.exercises.model.TaskType;
 import pl.mmieczak.exercises.service.TaskService;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class TaskController {
 
     @GetMapping("/create")
     String createTask(Model model) {
-        model.addAttribute("new_task", new Task());
+        model.addAttribute("task", new Task());
         return "create";
     }
 
@@ -43,7 +42,7 @@ public class TaskController {
     String editTask(@RequestParam Long id, Model model) {
         Optional<Task> taskOptional = taskService.findOneById(id);
         if (taskOptional.isPresent()) {
-            model.addAttribute("edit_task", taskOptional.get());
+            model.addAttribute("edit", taskOptional.get());
             return "task";
         }
         return "redirect:/";
@@ -51,7 +50,7 @@ public class TaskController {
 
     @PostMapping("/task/add")
     String addTask(Task task) {
-        task.setRegistrationDateTime(Instant.now());
+        task.setRegistrationDateTime(LocalDateTime.now());
         task.setStatus(TaskType.ONGOING);
         taskService.save(task);
         return "redirect:/";
@@ -64,14 +63,14 @@ public class TaskController {
     }
 
     @GetMapping("/delete")
-    String deleteTask(@RequestParam Long id, Task task) {
-        taskService.delete(task);
+    String deleteTask(Long id) {
+        taskService.delete(id);
         return "redirect:/";
     }
 
     @GetMapping("/ongoing")
     String showOngoingTasks(Model model) {
-        List<Task> taskList = taskService.findOngoing();
+        List<Task> taskList = taskService.findOngoing(TaskType.ONGOING);
         model.addAttribute("tasks", taskList);
         model.addAttribute("task", new Task());
         return "index";
@@ -79,7 +78,7 @@ public class TaskController {
 
     @GetMapping("/archived")
     String showArchivedTasks(Model model) {
-        List<Task> taskList = taskService.findArchived();
+        List<Task> taskList = taskService.findArchived(TaskType.FINISHED);
         model.addAttribute("tasks", taskList);
         model.addAttribute("task", new Task());
         return "index";

@@ -3,7 +3,6 @@ package pl.mmieczak.exercises.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.mmieczak.exercises.model.Task;
-import pl.mmieczak.exercises.model.TaskType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,8 +27,8 @@ public class TaskService {
     }
 
     @Transactional
-    public void delete(Task task) {
-        Task t = entityManager.find(Task.class, task.getId());
+    public void delete(Long id) {
+        Task t = entityManager.find(Task.class, id);
         entityManager.remove(t);
     }
 
@@ -43,13 +42,13 @@ public class TaskService {
         return Optional.ofNullable(task);
     }
 
-    public List<Task> findOngoing() {
-        TypedQuery<Task> selectActualTasks = entityManager.createQuery("SELECT t FROM Task t WHERE t.status='" + TaskType.ONGOING + "' ORDER BY t.taskEndDate ASC", Task.class);
-        return selectActualTasks.getResultList();
+    public List<Task> findOngoing(Enum name) {
+        TypedQuery<Task> selectActualTasks = entityManager.createQuery("SELECT t FROM Task t WHERE t.status=?1 ORDER BY t.taskEndDate ASC", Task.class);
+        return selectActualTasks.setParameter(1, name).getResultList();
     }
 
-    public List<Task> findArchived() {
-        TypedQuery<Task> selectActualTasks = entityManager.createQuery("SELECT t FROM Task t WHERE t.status='" + TaskType.FINISHED + "' ORDER BY t.taskEndDate ASC", Task.class);
-        return selectActualTasks.getResultList();
+    public List<Task> findArchived(Enum status) {
+        TypedQuery<Task> selectActualTasks = entityManager.createQuery("SELECT t FROM Task t WHERE t.status=:status ORDER BY t.taskEndDate ASC", Task.class);
+        return selectActualTasks.setParameter("status", status).getResultList();
     }
 }

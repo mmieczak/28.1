@@ -11,7 +11,7 @@
 <div class="mx-auto mt-4" style="width: 400px;">
     <h1>Add new Task <img src="/add.png"/></h1>
 </div>
-<form method="post" th:action="@{/task/add}" th:object="${new_task}">
+<form method="post" th:action="@{/task/add}" th:object="${task}">
     <table class="table">
         <thead class="thead-dark">
         <tr>

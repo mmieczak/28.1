@@ -3,8 +3,8 @@ package pl.mmieczak.exercises.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -14,9 +14,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    //@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Instant registrationDateTime;
+    private LocalDateTime registrationDateTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskEndDate;
@@ -32,9 +30,7 @@ public class Task {
     public Task() {
     }
 
-    ;
-
-    public Task(Long id, String name, Instant registrationDateTime, LocalDate taskEndDate, LocalTime timeSpent, TaskType status, TaskCategory category) {
+    public Task(Long id, String name, LocalDateTime registrationDateTime, LocalDate taskEndDate, LocalTime timeSpent, TaskType status, TaskCategory category) {
         this.id = id;
         this.name = name;
         this.registrationDateTime = registrationDateTime;
@@ -60,15 +56,16 @@ public class Task {
         this.name = name;
     }
 
-    public Instant getRegistrationDateTime() {
+    public LocalDateTime getRegistrationDateTime() {
         return registrationDateTime;
     }
 
-    public void setRegistrationDateTime(Instant registrationDateTime) {
+    public void setRegistrationDateTime(LocalDateTime registrationDateTime) {
         this.registrationDateTime = registrationDateTime;
     }
 
     public LocalDate getTaskEndDate() {
+
         return taskEndDate;
     }
 
@@ -81,10 +78,12 @@ public class Task {
     }
 
     public void setTimeSpent(LocalTime timeSpent) {
+
         this.timeSpent = timeSpent;
     }
 
     public TaskType getStatus() {
+
         return status;
     }
 
